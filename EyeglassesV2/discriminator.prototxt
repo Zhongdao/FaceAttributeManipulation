@@ -370,7 +370,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 1
+    num_output: 3
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -381,15 +381,23 @@ layer {
     }
   }
 }
-
-
 layer {
   name: "discr_loss"
-  type: "SigmoidCrossEntropyLoss"
+  type: "SoftmaxWithLoss"
   bottom: "Dfc7"
   bottom: "label"
   top: "discr_loss"
   loss_weight: 1
-#   loss_weight: 1
 }
 
+
+#layer {
+#  name: "discr_loss"
+#  type: "SigmoidCrossEntropyLoss"
+#  bottom: "Dfc7"
+#  bottom: "label"
+#  top: "discr_loss"
+#  loss_weight: 1
+##   loss_weight: 1
+#}
+#

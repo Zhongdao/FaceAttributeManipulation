@@ -87,3 +87,13 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+
+Eyeglasses
+caffe-fr-chairs-deepsim
+EyeglassesV3
+EyeglassesV3t
+EyeglassesV3.1
+Smiling
+EyeglassesV2/snapshots*
+EyeglassesV2/test_result

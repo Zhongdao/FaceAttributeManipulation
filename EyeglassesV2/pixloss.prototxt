@@ -1,0 +1,20 @@
+force_backward:true
+input:"data"
+input_shape{
+    dim:64
+    dim:3
+    dim:64
+    dim:64
+}
+
+layer {
+    name:"l1reg"
+    type:"Reduction"
+    bottom:"data"
+    top:"l1reg"
+    reduction_param{
+        operation:ASUM
+        axis:0
+    }
+    loss_weight:1
+}

@@ -1,0 +1,23 @@
+
+layer {
+  name: "data"
+  type: "ImageData"
+  top: "data"
+  top: "label"
+  transform_param {
+    mirror: true
+#    crop_size: 227
+#    mean_file: "/data/deploy/caffe/data/ilsvrc12/imagenet_mean.binaryproto"
+    mean_value: 104
+    mean_value: 117
+    mean_value: 123
+  }
+  image_data_param {
+    source: "/home/Disk1/wangzd/CelebA/Anno/Eyeglasses_Negative.txt"
+    root_folder:"/home/Disk1/wangzd/CelebA/Img/img_celeba_bbox/"
+    batch_size: 64
+    new_height: 64
+    new_width: 64
+    shuffle:true
+  }
+}

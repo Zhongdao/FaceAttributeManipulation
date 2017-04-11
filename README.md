@@ -1,31 +1,48 @@
-# dcgan.caffe: A pure caffe-python implementation of [DC-GAN](https://github.com/soumith/dcgan.torch)
-======================================================================================
+## GAN Face Attribute Manipulation with Caffe Implementation
 
-As far as I know, there is no light-weight implementation of DCGAN based on caffe.
+This project uses Caffe python interface to implement [Face Attribute Manipulation](https://arxiv.org/abs/1612.05363).
 
-Inspired by [DeePSiM](http://lmb.informatik.uni-freiburg.de/resources/binaries/arxiv2016_alexnet_inversion_with_gans/release_deepsim_v0.5.zip) implementation, a few lines of python code can train the dcgan model quickly without any hack in caffe core lib ([Dosovitskiy](https://github.com/dosovits/caffe-fr-chairs/tree/deepsim) has already done this. However, I think the code could be merged back to master branch).
+Thanks to the enhanced version of py-caffe in [deepsim-caffe](https://github.com/dosovits/caffe-fr-chairs/tree/deepsim), a few lines of python code can train GANs quickly without any hack in caffe core lib. At present this project is incomplete yet, with only GAN loss + pixel loss + residual learning are implemented. 
 
-## Dependency
-You will need to compile the [deepsim-caffe-branch](https://github.com/dosovits/caffe-fr-chairs/tree/deepsim). And make sure your `PYTHONPATH` point to it.
+## Demo
+- Generate Eyeglasses
+![gen](assets/gen.png)
+- Remove Eyeglasses
+![remove](assets/remove.png)
 
-The deepsim-caffe only support cudnn-4.0. If disable the cudnn engine and replace some convolution layers with the master branch, a latest cudnn and cuda will work fine.
+## Setup
+
+You need to clone the [caffe-deepsim-branch](https://github.com/dosovits/caffe-fr-chairs/tree/deepsim) and compile py-caffe. Then replcace your caffe path in both train.py and generate.py.
 
 ## Training
-For face generator, please prepare [celebA](https://github.com/soumith/dcgan.torch#11-train-a-face-generator-using-the-celeb-a-dataset) dataset as the link said. Then make a train list file and put it in the data.prototxt.
 
-Just typing
-```
-python train.py
-```
+- First we need to prepare the CelebA dataset since we need the annotation of face attributes. [link](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
+- Divided the image list into two lists according to some specific attribute, e.g. Eyeglasses here. The two lists are in the following format:
 
-## Visualization
-To view the model result by
-```
-python generate.py generator.prototxt snapshots_test/4000/generator.caffemodel
-```
+    Positive.txt
+    000053.jpg 0
+    000093.jpg 0
+    ...
 
-The visualizations of the models at iteration 3000 and 4000 are as following:
+    Negative.txt
+    000001.jpg 0
+    000002.jpg 0
+    ...
+  
+  Note that the label 0 here is meaningless since we don't need them, we add labels here just for using the ImageDataLayer in Caffe. When the lists are ready you need to replace the source fileds in data_gen.prototxt and data_dual.prototxt with the prepared lists.
 
-![3000](output/iter_3000.png)
+- Run the training scripts
 
-![4000](output/iter_4000.png)
+    $ python train.py
+
+## Testing
+
+    $ mkdir test_result
+    $ python generate.py generator.prototxt ./snapshots_test/3000/generator.caffemodel
+
+## TODO
+
+- Implement the perceptual loss.(I have implement a version but it seems not to work well)
+- Adding dual learning.
+- Change the network architecture to produce larger images(128x128), now the output is 64x64.
+
