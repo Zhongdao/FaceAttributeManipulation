@@ -19,15 +19,15 @@ You need to clone the [caffe-deepsim-branch](https://github.com/dosovits/caffe-f
 - First we need to prepare the CelebA dataset since we need the annotation of face attributes. [link](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
 - Divided the image list into two lists according to some specific attribute, e.g. Eyeglasses here. The two lists are in the following format:
 
-   $ Positive.txt
-   $ 000053.jpg 0
-   $ 000093.jpg 0
-   $ ...
+    $ Positive.txt
+    $ 000053.jpg 0
+    $ 000093.jpg 0
+    $ ...
 
-   $ Negative.txt
-   $ 000001.jpg 0
-   $ 000002.jpg 0
-   $ ...
+    $ Negative.txt
+    $ 000001.jpg 0
+    $ 000002.jpg 0
+    $ ...
   
   Note that the label 0 here is meaningless since we don't need them, we add labels here just for using the ImageDataLayer in Caffe. When the lists are ready you need to replace the source fileds in data_gen.prototxt and data_dual.prototxt with the prepared lists.
 
